@@ -317,6 +317,9 @@ textarea {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid var(--border-color);
+    vertical-align: top;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .styled-table th {
@@ -330,6 +333,30 @@ textarea {
     vertical-align: middle;
     margin-right: 4px;
 }
+
+.styled-table th .th-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    word-break: normal;
+    overflow-wrap: normal;
+    line-height: 1.3;
+}
+
+.styled-table th .th-label .material-icons {
+    margin-right: 0;
+    flex-shrink: 0;
+    line-height: inherit;
+}
+
+#windowTable .styled-table {
+    table-layout: fixed;
+}
+
+#windowTable .styled-table .col-nationality { width: 16%; }
+#windowTable .styled-table .col-date { width: 19%; }
+#windowTable .styled-table .col-comments { width: 41%; }
+#windowTable .styled-table .col-rating { width: 24%; }
 
 .styled-table tbody tr:hover {
     background-color: var(--table-row-hover);
@@ -1036,6 +1063,65 @@ body.dark-mode .modal-footer {
     .styled-table th,
     .styled-table td {
         padding: 10px 12px;
+    }
+
+    #windowTable .styled-table {
+        display: block;
+        table-layout: auto;
+        overflow-x: visible;
+        white-space: normal;
+    }
+
+    #windowTable .styled-table colgroup,
+    #windowTable .styled-table thead {
+        display: none;
+    }
+
+    #windowTable .styled-table tbody,
+    #windowTable .styled-table tr,
+    #windowTable .styled-table td {
+        display: block;
+        width: 100%;
+    }
+
+    #windowTable .styled-table tr {
+        margin-bottom: 14px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: var(--card-bg);
+    }
+
+    #windowTable .styled-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        text-align: right;
+        border-bottom: 1px solid var(--border-color);
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    #windowTable .styled-table td:last-child {
+        border-bottom: none;
+    }
+
+    #windowTable .styled-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        text-align: left;
+        flex-shrink: 0;
+        color: var(--primary-color);
+    }
+
+    #windowTable .styled-table td[colspan] {
+        display: block;
+        text-align: center;
+    }
+
+    #windowTable .styled-table td[colspan]::before {
+        content: none;
     }
 
     .star-rating {

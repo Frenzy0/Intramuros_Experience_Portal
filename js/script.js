@@ -380,10 +380,10 @@ function renderTable() {
         paginate(feedbackData, tablePage).forEach(item => {
             rows += `
                         <tr>
-                            <td>${escapeHtml(item.nationality)}</td>
-                            <td>${escapeHtml(item.visitDate)}</td>
-                            <td>${withPlaceholder(item.comments, 'No comments left.')}</td>
-                            <td>${ratingCellHtml(item)}</td>
+                            <td data-label="Nationality">${escapeHtml(item.nationality)}</td>
+                            <td data-label="Visit Date">${escapeHtml(item.visitDate)}</td>
+                            <td data-label="Comments">${withPlaceholder(item.comments, 'No comments left.')}</td>
+                            <td data-label="Overall Rating">${ratingCellHtml(item)}</td>
                         </tr>
                     `;
         });

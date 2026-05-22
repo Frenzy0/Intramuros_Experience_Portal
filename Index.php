@@ -52,13 +52,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['clear_survey']) && !i
         $average = ($cleanliness + $restroom + $guides + $accommodation + $overall) / 5;
 
         $sql = "INSERT INTO feedback (nationality, visit_date, cleanliness, restroom, guides, accommodation, overall, comments, average)
-                VALUES ('$nationality', '$visit_date', $cleanliness, $restroom, $guides, $accommodation, $overall, '$comments', $average)";
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        if ($conn->query($sql) === TRUE) {
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param(
+            "ssiiiiisd",
+            $nationality,
+            $visit_date,
+            $cleanliness,
+            $restroom,
+            $guides,
+            $accommodation,
+            $overall,
+            $comments,
+            $average
+        );
+
+        if ($stmt->execute()) {
             echo "success";
+            $stmt->close();
             exit();
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Error: " . $conn->error;
+            $stmt->close();
             exit();
         }
     }
@@ -259,12 +275,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['clear_survey']) && !i
             <p class="context">A summary of the latest visitor experience ratings.</p>
 
             <table class="styled-table">
+                <colgroup>
+                    <col class="col-nationality">
+                    <col class="col-date">
+                    <col class="col-comments">
+                    <col class="col-rating">
+                </colgroup>
                 <thead>
                     <tr>
-                        <th><span class="material-icons">public</span>Nationality</th>
-                        <th><span class="material-icons">event</span>Visit Date</th>
-                        <th><span class="material-icons">comment</span>Comments</th>
-                        <th><span class="material-icons">star_rate</span>Overall Rating</th>
+                        <th><span class="th-label"><span class="material-icons">public</span><span>Nationality</span></span></th>
+                        <th><span class="th-label"><span class="material-icons">event</span><span>Visit Date</span></span></th>
+                        <th><span class="th-label"><span class="material-icons">comment</span><span>Comments</span></span></th>
+                        <th><span class="th-label"><span class="material-icons">star_rate</span><span>Overall Rating</span></span></th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">

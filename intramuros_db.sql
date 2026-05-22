@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2026 at 07:37 AM
+-- Generation Time: May 22, 2026 at 03:26 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -129,7 +129,9 @@ INSERT INTO `activity_log` (`id`, `username`, `action`, `details`, `created_at`)
 (87, 'admin', 'feedback_deleted', 'Deleted feedback id=17', '2026-05-14 14:13:23'),
 (88, 'admin', 'feedback_deleted', 'Deleted feedback id=16', '2026-05-14 14:13:25'),
 (89, 'admin', 'survey_cleared', 'Cleared 7 survey response(s).', '2026-05-15 05:36:20'),
-(90, 'admin', 'logout', 'Admin signed out.', '2026-05-15 05:36:29');
+(90, 'admin', 'logout', 'Admin signed out.', '2026-05-15 05:36:29'),
+(91, 'admin', 'logout', 'Admin signed out.', '2026-05-21 04:49:18'),
+(92, 'admin', 'logout', 'Admin signed out.', '2026-05-22 01:25:37');
 
 -- --------------------------------------------------------
 
@@ -183,7 +185,8 @@ INSERT INTO `feedback` (`id`, `nationality`, `visit_date`, `cleanliness`, `restr
 (11, 'Foreign', '2026-05-29', 2, 2, 2, 3, 3, '', 2.40, '2026-05-11 01:12:00'),
 (13, 'Local', '2026-05-01', 2, 3, 3, 4, 2, '', 2.80, '2026-05-13 13:55:36'),
 (14, 'Foreign', '2026-03-23', 3, 2, 2, 3, 3, '', 2.60, '2026-05-14 07:39:49'),
-(15, 'Foreign', '2026-03-27', 3, 2, 3, 3, 2, 'Its all good man', 2.60, '2026-05-14 07:42:33');
+(15, 'Foreign', '2026-03-27', 3, 2, 3, 3, 2, 'Its all good man', 2.60, '2026-05-14 07:42:33'),
+(18, 'Local', '2026-05-21', 4, 2, 2, 2, 3, ' is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 2.60, '2026-05-21 04:49:36');
 
 -- --------------------------------------------------------
 
@@ -236,7 +239,7 @@ ALTER TABLE `survey`
 -- AUTO_INCREMENT for table `activity_log`
 --
 ALTER TABLE `activity_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT for table `admin_users`
@@ -248,7 +251,7 @@ ALTER TABLE `admin_users`
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `survey`
