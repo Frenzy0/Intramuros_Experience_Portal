@@ -49,13 +49,31 @@ function applyStoredDarkMode() {
 }
 
 function toggleAdminPassword() {
-    const passwordInput = document.getElementById('adminPassword');
-    const icon = document.getElementById('adminPasswordToggleIcon');
-    const btn = document.getElementById('adminPasswordToggle');
+    togglePasswordVisibility('adminPassword', 'adminPasswordToggleIcon', 'adminPasswordToggle');
+}
+
+function togglePasswordVisibility(inputId, iconId, btnId) {
+    const passwordInput = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    const btn = document.getElementById(btnId);
+    if (!passwordInput) return;
     const showing = passwordInput.type === 'password';
     passwordInput.type = showing ? 'text' : 'password';
     if (icon) icon.textContent = showing ? 'visibility_off' : 'visibility';
     if (btn) btn.setAttribute('aria-label', showing ? 'Hide password' : 'Show password');
+}
+
+// Strong-password policy: 12+ chars with upper, lower, number, special.
+// Returns null when valid, otherwise a human-readable message listing what's missing.
+function validateStrongPassword(pwd) {
+    const missing = [];
+    if (pwd.length < 12) missing.push('12+ characters');
+    if (!/[A-Z]/.test(pwd)) missing.push('an uppercase letter');
+    if (!/[a-z]/.test(pwd)) missing.push('a lowercase letter');
+    if (!/[0-9]/.test(pwd)) missing.push('a number');
+    if (!/[^A-Za-z0-9]/.test(pwd)) missing.push('a special character');
+    if (missing.length === 0) return null;
+    return 'Password must include ' + missing.join(', ') + '.';
 }
 
 function closeSurvey() {
@@ -614,8 +632,9 @@ function submitProfileChange(event) {
         return;
     }
     if (newPassword) {
-        if (newPassword.length < 6) {
-            showToast('New password must be at least 6 characters.', 'error');
+        const strongErr = validateStrongPassword(newPassword);
+        if (strongErr) {
+            showToast(strongErr, 'error');
             document.getElementById('profileNewPassword').focus();
             return;
         }

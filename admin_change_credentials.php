@@ -27,13 +27,21 @@ if ($new_username === '' && $new_password === '') {
     exit();
 }
 
-if ($new_password !== '' && strlen($new_password) < 6) {
-    $response['message'] = 'New password must be at least 6 characters.';
-    echo json_encode($response);
-    exit();
+if ($new_password !== '') {
+    $missing = [];
+    if (strlen($new_password) < 12)        $missing[] = '12+ characters';
+    if (!preg_match('/[A-Z]/', $new_password)) $missing[] = 'an uppercase letter';
+    if (!preg_match('/[a-z]/', $new_password)) $missing[] = 'a lowercase letter';
+    if (!preg_match('/[0-9]/', $new_password)) $missing[] = 'a number';
+    if (!preg_match('/[^A-Za-z0-9]/', $new_password)) $missing[] = 'a special character';
+    if (!empty($missing)) {
+        $response['message'] = 'Password must include ' . implode(', ', $missing) . '.';
+        echo json_encode($response);
+        exit();
+    }
 }
 
-$stmt = $conn->prepare("SELECT id, username, password_hash FROM admin_users WHERE username = ? LIMIT 1");
+$stmt = $conn->prepare("SELECT id, username, password_hash FROM admin_users WHERE BINARY username = ? LIMIT 1");
 $stmt->bind_param('s', $current_username);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -61,7 +69,7 @@ $final_hash     = $new_password !== ''
     : $admin['password_hash'];
 
 if ($new_username !== '' && $new_username !== $admin['username']) {
-    $check = $conn->prepare("SELECT id FROM admin_users WHERE username = ? AND id <> ? LIMIT 1");
+    $check = $conn->prepare("SELECT id FROM admin_users WHERE BINARY username = ? AND id <> ? LIMIT 1");
     $check->bind_param('si', $new_username, $admin['id']);
     $check->execute();
     $check_res = $check->get_result();

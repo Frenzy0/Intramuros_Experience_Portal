@@ -33,7 +33,7 @@ if ($count_result) {
     }
 }
 
-$stmt = $conn->prepare("SELECT id, username, password_hash FROM admin_users WHERE username = ? LIMIT 1");
+$stmt = $conn->prepare("SELECT id, username, password_hash FROM admin_users WHERE BINARY username = ? LIMIT 1");
 $stmt->bind_param('s', $username);
 $stmt->execute();
 $result = $stmt->get_result();

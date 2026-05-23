@@ -2,11 +2,19 @@
 -- Run this on the existing `intramuros_db` database.
 -- A default admin (admin / password123) is auto-seeded by admin_login.php
 -- on first login, using PHP's password_hash() so the bcrypt is correct.
+--
+-- `username` uses utf8mb4_bin so the UNIQUE index is case-sensitive
+-- (admin and ADMIN are treated as different accounts).
+--
+-- Existing installs without dropping data:
+--   ALTER TABLE `admin_users`
+--     MODIFY `username` varchar(50)
+--     CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL;
 
 DROP TABLE IF EXISTS `admin_users`;
 CREATE TABLE `admin_users` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `password_hash` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),

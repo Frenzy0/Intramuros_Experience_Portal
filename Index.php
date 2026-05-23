@@ -453,24 +453,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['clear_survey']) && !i
 
                     <div class="form-group">
                         <label for="profileOldPassword" class="label-with-icon"><span class="material-icons">lock</span>Old Password <span class="required-mark">*</span></label>
-                        <input type="password" id="profileOldPassword" placeholder="Enter current password">
+                        <div class="password-field">
+                            <input type="password" id="profileOldPassword" placeholder="Enter current password">
+                            <button type="button" class="password-toggle" id="profileOldPasswordToggle" onclick="togglePasswordVisibility('profileOldPassword', 'profileOldPasswordToggleIcon', 'profileOldPasswordToggle')" aria-label="Show password">
+                                <span class="material-icons" id="profileOldPasswordToggleIcon">visibility</span>
+                            </button>
+                        </div>
                     </div>
 
                     <hr class="hr-soft-md">
 
                     <div class="form-group">
                         <label for="profileNewUsername" class="label-with-icon"><span class="material-icons">person</span>New Username <span class="optional-mark">(optional)</span></label>
-                        <input type="text" id="profileNewUsername" placeholder="Leave blank to keep current">
+                        <input type="text" id="profileNewUsername" placeholder="Leave blank to keep current (case-sensitive)">
                     </div>
 
                     <div class="form-group">
                         <label for="profileNewPassword" class="label-with-icon"><span class="material-icons">key</span>New Password</label>
-                        <input type="password" id="profileNewPassword" placeholder="Min 6 characters; leave blank to keep current">
+                        <div class="password-field">
+                            <input type="password" id="profileNewPassword" placeholder="Min 12 chars; upper, lower, number, special">
+                            <button type="button" class="password-toggle" id="profileNewPasswordToggle" onclick="togglePasswordVisibility('profileNewPassword', 'profileNewPasswordToggleIcon', 'profileNewPasswordToggle')" aria-label="Show password">
+                                <span class="material-icons" id="profileNewPasswordToggleIcon">visibility</span>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="profileConfirmPassword" class="label-with-icon"><span class="material-icons">key</span>Confirm New Password</label>
-                        <input type="password" id="profileConfirmPassword" placeholder="Re-type new password">
+                        <div class="password-field">
+                            <input type="password" id="profileConfirmPassword" placeholder="Re-type new password">
+                            <button type="button" class="password-toggle" id="profileConfirmPasswordToggle" onclick="togglePasswordVisibility('profileConfirmPassword', 'profileConfirmPasswordToggleIcon', 'profileConfirmPasswordToggle')" aria-label="Show password">
+                                <span class="material-icons" id="profileConfirmPasswordToggleIcon">visibility</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
