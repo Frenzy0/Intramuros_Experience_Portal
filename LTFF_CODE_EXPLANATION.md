@@ -21,21 +21,22 @@ A walkthrough of how the **Local Tourist Feedback System (Intramuros)** works. E
 15. Changing Admin Credentials (admin_change_credentials.php)
 16. Reading the Activity Log (admin_activity_log.php)
 17. Logging Out (admin_logout.php)
-18. Toast Messages (js/script.js)
-19. Quick Glossary
+18. Creating / Resetting an Admin (setup_admin.php)
+19. Toast Messages (js/script.js)
+20. Quick Glossary
 
 ## **Big Picture**
 
 The system has **two kinds of users**:
 
-- **Tourists** – open the homepage, see the overall rating, and fill in a feedback form. No login needed.
-- **Admin** – logs in and can view every feedback entry, delete fake or bad ones, see the Quick Survey answers, and check an activity log.
+- **Tourists** – open the homepage, leave a star rating and a comment. No login.
+- **Admin** – logs in to see all feedback, delete bad entries, read the Quick Survey answers, and check the activity log.
 
-Behind the scenes, **PHP** runs on the server, **MySQL** stores the data, and **HTML/CSS/JavaScript** show the pages in the browser.
+**PHP** runs on the server, **MySQL** stores the data, and **HTML/CSS/JavaScript** show the pages.
 
-A simple flow:
+The flow is simple:
 
-Tourist fills feedback → PHP saves it to MySQL → Admin sees the data on the Dashboard
+Tourist fills feedback → PHP saves it to MySQL → Admin sees it on the Dashboard
 
 ## **1. The Database (intramuros_db.sql)**
 
@@ -66,7 +67,7 @@ CREATE TABLE feedback (
 );
 ```
 
-**Why this matters:** each row is one review. The five ratings are numbers from 1 to 5. The `average` column saves the math so the homepage doesn’t have to recompute it every time.
+**Why this matters:** one row = one review. The five ratings are numbers from 1 to 5. The `average` column saves the math so the homepage doesn’t have to compute it every time.
 
 ## **2. Connecting to the Database (Config.php)**
 
@@ -91,11 +92,11 @@ if ($conn->connect_error) {
 
 **In Simple:**
 
-- `mysqli(...)` opens a connection to MySQL (using the default XAMPP settings).
-- `session_start()` turns on PHP “sessions” so the server can remember a logged-in admin across pages.
-- If the connection fails, the page stops and shows an error.
+- `mysqli(...)` opens a connection to MySQL using the default XAMPP settings.
+- `session_start()` lets the server remember a logged-in admin between pages.
+- If the connection fails, the page stops with an error.
 
-This file is **included** at the top of every PHP page that needs the database — so we don’t repeat the same code everywhere.
+This file is **included** at the top of every PHP page that talks to the database, so we don’t repeat the same code everywhere.
 
 ## **3. Loading Feedback for the Homepage (Index.php)**
 
@@ -118,7 +119,7 @@ if ($result && $result->num_rows > 0) {
 }
 ```
 
-**In Simple:** read every feedback entry, newest visit date first. For each one, add the five star ratings together and divide by 5 to get the average. The list is then handed to JavaScript so the homepage can show review cards and the star slideshow.
+**In Simple:** read every feedback row (newest first). For each one, add the five ratings and divide by 5 to get the average. The list is then handed to JavaScript so the homepage can show review cards and the star slideshow.
 
 ## **4. The Feedback Form (Index.php)**
 
@@ -143,13 +144,13 @@ if ($result && $result->num_rows > 0) {
 </form>
 ```
 
-The `name` attribute on each input is the **key** PHP uses to read the value later (`$_POST['nationality']`, `$_POST['visitDate']`, and so on).
+The `name` on each input is the **key** PHP uses to read the value (`$_POST['nationality']`, `$_POST['visitDate']`, …).
 
-When the user clicks Submit, the `onsubmit="submitFeedback(event)"` handler runs — that’s our JavaScript function that checks everything before sending it.
+When the user clicks Submit, `onsubmit="submitFeedback(event)"` runs — that’s our JavaScript function that checks everything before sending it.
 
 ## **5. Visit Date Validation (Index.php + js/script.js)**
 
-This is the rule we want enforced:
+The rule:
 
 > The visit date must be **today**. Not yesterday, not tomorrow.
 
@@ -161,7 +162,7 @@ This is the rule we want enforced:
        max="<?php echo date('Y-m-d'); ?>">
 ```
 
-`date('Y-m-d')` prints today’s date in `YYYY-MM-DD` form. Both `min` and `max` are set to today, so the browser’s built-in calendar only lets the user click **today’s date**. Past and future days appear greyed out.
+`date('Y-m-d')` prints today’s date. Both `min` and `max` are set to today, so the calendar only lets the user pick **today**.
 
 ### Part B — Double-check before sending (js/script.js)
 
@@ -190,17 +191,16 @@ if (selectedDate > today) {
 }
 ```
 
-**In Simple — step by step:**
+**In Simple:**
 
 1. Read the date the user picked.
-2. If the box is empty → red toast _“Please choose your visit date.”_ and stop.
-3. Make a `today` value with the time chopped off, so we compare day-to-day only (not hours and minutes).
-4. Turn the picked date into a real date object too.
-5. If it is **earlier than today** → red toast _“Visit date cannot be in the past.”_
-6. If it is **later than today** → red toast _“Visit date cannot be in the future.”_
-7. Only if it equals today does the form keep going.
+2. If empty → red toast, stop.
+3. Make a `today` value with the time chopped off so we compare day-to-day.
+4. If the picked date is before today → red toast, stop.
+5. If it’s after today → red toast, stop.
+6. Only if it equals today does the form keep going.
 
-**Why both HTML and JavaScript?** The HTML `min/max` blocks the calendar UI, but a clever user could still type a date by hand or change it with developer tools. The JavaScript check is the safety net that catches anything the picker missed.
+**Why both HTML and JavaScript?** The HTML `min/max` blocks the calendar, but a clever user could still type a date by hand or change it with dev tools. The JavaScript check is the safety net.
 
 ## **6. Saving New Feedback (Index.php POST handler)**
 
@@ -241,10 +241,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"
 
 **In Simple:**
 
-1. Read every form value out of `$_POST`.
-2. Make sure all five star ratings are filled in.
-3. Compute the average and save the whole row into the `feedback` table.
-4. If it works, print `success`. The JavaScript watches for this exact word to know everything went well.
+1. Read every form value from `$_POST`.
+2. Make sure all five ratings are filled in.
+3. Compute the average and INSERT the row into `feedback`.
+4. If it worked, print `success`. The JavaScript watches for that exact word.
 
 ## **7. Sending the Form with JavaScript (js/script.js)**
 
@@ -284,14 +284,14 @@ function submitFeedback(event) {
 
 **In Simple:**
 
-1. Stop the page from reloading the normal way (`preventDefault`).
-2. Check each field one by one. If anything is missing, show a red toast and stop.
-3. Pack everything into a `FormData` bundle and `fetch()` sends it to `Index.php`.
-4. If the server replies with `success`, show a green toast, clear the form, and reload the page so the new review appears.
+1. Stop the normal page reload (`preventDefault`).
+2. Check each field. If anything is missing, show a red toast and stop.
+3. Pack the values into `FormData` and `fetch()` it to `Index.php`.
+4. If the server replies `success`, show a green toast, clear the form, and reload to show the new review.
 
 ## **8. The Quick Survey (save_survey.php)**
 
-A small floating popup asks the tourist if the form was easy to use. The yes/no answer is saved here.
+A small popup asks the tourist if the form was easy to use. The yes/no answer is saved here.
 
 ```php
 <?php
@@ -314,13 +314,13 @@ $conn->close();
 ?>
 ```
 
-**In Simple:** take the “yes” or “no” answer and the optional suggestion, then add a new row to the `survey` table. `real_escape_string()` makes the values safe to put inside the SQL string so users can’t break the query with quotes.
+**In Simple:** take the “yes” or “no” answer plus the optional suggestion and add a row to `survey`. `real_escape_string()` makes the text safe to put inside the SQL string so quotes can’t break the query.
 
 ## **9. Admin Login (admin_login.php)**
 
 ```php
 $stmt = $conn->prepare("SELECT id, username, password_hash
-                        FROM admin_users WHERE username = ? LIMIT 1");
+                        FROM admin_users WHERE BINARY username = ? LIMIT 1");
 $stmt->bind_param('s', $username);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -344,22 +344,39 @@ if ($result && $result->num_rows === 1) {
 
 **In Simple:**
 
-1. Look up the admin by username.
-2. `password_verify()` checks the typed password against the scrambled (hashed) password in the database. We **never** store the plain password — even if someone steals the database, they can’t read the real ones.
+1. Look up the admin by username. The `BINARY` keyword makes the match **case-sensitive**, so `Admin` and `admin` are treated as different.
+2. `password_verify()` checks the typed password against the hashed one in the database. We **never** store the plain password.
 3. If the password matches, save the admin’s username and id in `$_SESSION` so other pages know they’re logged in. Then log the success.
-4. Wrong username or wrong password → log the failed attempt and send back an error message.
+4. Wrong username or wrong password → log the failed attempt and send back an error.
 
-**Why use `prepare()` + `bind_param()`?** This is called a **prepared statement**. It protects against **SQL injection** — a trick where someone types `'; DROP TABLE admin_users; --` into the form to break the database. Prepared statements treat the typed value as data, not as code, so the attack fails.
+**Strong password check (in the browser, js/script.js):**
+
+```js
+function validateStrongPassword(pwd) {
+    const missing = [];
+    if (pwd.length < 12) missing.push('12+ characters');
+    if (!/[A-Z]/.test(pwd)) missing.push('an uppercase letter');
+    if (!/[a-z]/.test(pwd)) missing.push('a lowercase letter');
+    if (!/[0-9]/.test(pwd)) missing.push('a number');
+    if (!/[^A-Za-z0-9]/.test(pwd)) missing.push('a special character');
+    if (missing.length === 0) return null;
+    return 'Password must include ' + missing.join(', ') + '.';
+}
+```
+
+Before the login form even sends anything, JavaScript checks that the password has 12+ characters, an uppercase letter, a lowercase letter, a number, and a special character. If something is missing, a red toast lists what’s missing and the request is never sent.
+
+**Why `prepare()` + `bind_param()`?** This is a **prepared statement**. It protects against **SQL injection** — a trick where someone types `'; DROP TABLE admin_users; --` into the form to break the database. Prepared statements treat the typed value as data, not as code, so the attack fails.
 
 ## **10. Protecting Admin Actions with Sessions**
 
-The admin’s username is saved into `$_SESSION` once they log in. Other admin pages read it back from the session, like this in `admin_logout.php`:
+Once logged in, the admin’s username is saved in `$_SESSION`. Other admin pages read it back, for example in `admin_logout.php`:
 
 ```php
 $username = $_SESSION['admin_username'] ?? '';
 ```
 
-A **session** is the server’s short-term memory about one user. If `$_SESSION['admin_username']` is empty, the visitor is not logged in. This is how the system tells a real admin apart from a random visitor.
+A **session** is the server’s short-term memory for one user. If `$_SESSION['admin_username']` is empty, the visitor is not logged in. That’s how the system tells a real admin apart from a random visitor.
 
 ## **11. Activity Logging (admin_helpers.php)**
 
@@ -382,9 +399,7 @@ function actor_from_request() {
 }
 ```
 
-**In Simple:** a reusable helper. Every time an admin does something important (login, delete, clear survey, change profile), we call `log_activity(...)` so a row is added to the `activity_log` table. Later the admin can see a full history of what happened in the system.
-
-`actor_from_request()` is a tiny helper to grab the admin’s username from the request so we know **who** did the action.
+**In Simple:** a reusable helper. Every time something important happens (login, delete, clear survey, profile change), we call `log_activity(...)` and a row is added to `activity_log`. `actor_from_request()` just grabs the admin’s username from the request so we know **who** did the action.
 
 ## **12. Deleting Feedback (delete_feedback.php)**
 
@@ -403,7 +418,7 @@ if ($id > 0) {
 }
 ```
 
-**In Simple:** the page expects an ID in the URL (for example `delete_feedback.php?id=12`). `intval()` makes sure it’s a real number. The row is removed and the action is written to the activity log. The page sends back JSON so the JavaScript can update the table without a full reload.
+**In Simple:** the page expects an ID in the URL (`delete_feedback.php?id=12`). `intval()` makes sure it’s a real number. The row is deleted, the action is logged, and JSON is sent back so the JavaScript can update the table without reloading.
 
 ## **13. Clearing the Survey (clear_survey.php)**
 
@@ -419,7 +434,7 @@ if ($conn->query($sql) === TRUE) {
 }
 ```
 
-**In Simple:** count how many survey answers there are (so we can record it), then `TRUNCATE TABLE` empties the whole `survey` table at once. The deletion is then logged.
+**In Simple:** count how many survey answers exist (so we can log it), then `TRUNCATE TABLE` empties the whole `survey` table in one shot. The action is logged.
 
 ## **14. Changing Admin Credentials (admin_change_credentials.php)**
 
@@ -443,11 +458,11 @@ $update->bind_param('ssi', $final_username, $final_hash, $admin['id']);
 
 **In Simple:**
 
-1. Always ask for the **old password** and check it first. No one should be able to change credentials without proving they own the account.
-2. If the admin only wants to change one thing (username OR password), keep the old value for the other.
-3. `password_hash()` scrambles the new password before saving it.
+1. Always ask for the **old password** first. Nobody changes credentials without proving they own the account.
+2. If the admin only changes one thing (just the username or just the password), keep the old value for the other.
+3. `password_hash()` scrambles the new password before saving.
 4. A duplicate-username check stops two admins from having the same name.
-5. Every successful or failed attempt is written to the activity log.
+5. Every attempt — good or bad — is logged.
 
 ## **15. Reading the Activity Log (admin_activity_log.php)**
 
@@ -461,7 +476,7 @@ $sql = "SELECT id, username, action, details, created_at
 $result = $conn->query($sql);
 ```
 
-**In Simple:** read the latest entries from the `activity_log` table (newest first). The `$limit` is clamped between 1 and 500 so the page can’t be asked for too many rows. The result is sent back as JSON for the admin dashboard to display.
+**In Simple:** read the latest rows from `activity_log` (newest first). `$limit` is clamped between 1 and 500 so the page can’t ask for too many rows. The result is sent back as JSON for the dashboard to display.
 
 ## **16. Logging Out (admin_logout.php)**
 
@@ -485,9 +500,61 @@ if ($username !== '') {
 echo json_encode(['status' => 'success']);
 ```
 
-**In Simple:** empty the session, expire the session cookie, then destroy the session. The admin is now logged out and trying to open any admin action will be rejected. The logout itself is recorded in the activity log.
+**In Simple:** empty the session, expire the session cookie, then destroy the session. The admin is now logged out and any admin action will be rejected. The logout itself is recorded.
 
-## **17. Toast Messages (js/script.js)**
+## **17. Creating / Resetting an Admin (setup_admin.php)**
+
+This is a one-shot helper page used to make the first admin or to reset a forgotten password. It is **not** linked from anywhere — you open it directly at `http://localhost/LTFF/setup_admin.php`.
+
+```php
+function validate_password($pwd) {
+    $missing = [];
+    if (strlen($pwd) < 12)                   $missing[] = '12+ characters';
+    if (!preg_match('/[A-Z]/', $pwd))        $missing[] = 'an uppercase letter';
+    if (!preg_match('/[a-z]/', $pwd))        $missing[] = 'a lowercase letter';
+    if (!preg_match('/[0-9]/', $pwd))        $missing[] = 'a number';
+    if (!preg_match('/[^A-Za-z0-9]/', $pwd)) $missing[] = 'a special character';
+    return $missing;
+}
+```
+
+```php
+$check = $conn->prepare("SELECT id FROM admin_users WHERE BINARY username = ? LIMIT 1");
+$check->bind_param('s', $username);
+$check->execute();
+$existing = $check->get_result()->fetch_assoc();
+
+if ($existing) {
+    // username already exists → update the password
+    $stmt = $conn->prepare("UPDATE admin_users SET password_hash = ? WHERE id = ?");
+    $stmt->bind_param('si', $hash, $existing['id']);
+} else {
+    // brand new admin
+    $stmt = $conn->prepare("INSERT INTO admin_users (username, password_hash) VALUES (?, ?)");
+    $stmt->bind_param('ss', $username, $hash);
+}
+```
+
+**In Simple:**
+
+1. The form asks for a username, a password, and a confirm-password.
+2. `validate_password()` makes sure the password has 12+ characters, an uppercase, a lowercase, a number, and a special character.
+3. The same `BINARY` lookup as the login is used, so the username check is case-sensitive.
+4. If the username already exists, the page **resets** its password. If it’s new, the page **creates** a new admin.
+5. Either way, the action is written to the activity log.
+
+**The “delete me” button:** after success, a red button appears.
+
+```php
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'self_delete') {
+    $deleted = @unlink(__FILE__);
+    // ...show a confirmation page...
+}
+```
+
+Pressing it calls `unlink(__FILE__)` — PHP deletes its **own** file from the server. **Why?** Anyone who can reach `setup_admin.php` can create or overwrite an admin. Leaving the file on the server is a takeover risk, so the page reminds you to remove it the moment you’re done.
+
+## **18. Toast Messages (js/script.js)**
 
 Throughout the app, when something good or bad happens we call `showToast`:
 
@@ -496,7 +563,7 @@ showToast('Feedback submitted successfully!', 'success');
 showToast('Visit date cannot be in the past.', 'error');
 ```
 
-**In Simple:** pops a small message in the corner of the screen. Green for `success`, red for `error`. The user sees what happened without an alert box blocking the page.
+**In Simple:** a small message pops up in the corner. Green for `success`, red for `error`. The user sees what happened without an alert box blocking the page.
 
 ## **Quick Glossary**
 
@@ -508,10 +575,12 @@ Term | Meaning
 **$_POST / $_GET** | How PHP reads form data sent by the browser.
 **$_SESSION** | How PHP remembers a user across pages.
 **Prepared statement** | Safer way to run SQL queries — prevents SQL injection.
+**BINARY (in SQL)** | Forces a case-sensitive text match, so `Admin` ≠ `admin`.
 **password_hash() / password_verify()** | Built-in PHP functions to safely store and check passwords.
-**real_escape_string()** | Cleans a value before putting it inside an SQL string to stop quotes from breaking the query.
+**Strong password rule** | 12+ characters, with uppercase, lowercase, number, and special character. Checked in the browser before submit, and again in `setup_admin.php` on the server.
+**real_escape_string()** | Cleans a value before putting it inside an SQL string so quotes can’t break the query.
 **htmlspecialchars()** | Cleans output so user-typed code can’t run on the page (prevents XSS).
 **JSON** | A simple text format used to send data back from PHP to JavaScript.
 **fetch()** | Modern JavaScript function for sending data to the server without reloading the page.
 **Toast** | A small pop-up message at the corner of the screen, green for success and red for error.
-**Visit Date rule** | Must equal today. Past dates and future dates are rejected — both by the date picker (`min`/`max`) and by JavaScript (toast errors).
+**Visit Date rule** | Must equal today. Past and future dates are rejected — both by the date picker (`min`/`max`) and by JavaScript (toast errors).

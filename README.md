@@ -81,16 +81,14 @@ LTFF/
 ├── save_survey.php             # Saves a Quick Survey answer
 ├── clear_survey.php            # Clears all survey answers (admin only)
 │
-├── admin_login.php             # Handles admin login
+├── admin_login.php             # Handles admin login (case-sensitive)
 ├── admin_logout.php            # Handles admin logout
 ├── admin_change_credentials.php# Lets admin change username/password
 ├── admin_activity_log.php      # Sends activity log entries to the dashboard
 ├── admin_helpers.php           # Shared admin helper functions
+├── setup_admin.php             # One-shot tool to create/reset an admin account
 │
-├── intramuros_db.sql           # Full database backup (all tables)
-├── intramuros_db_admin.sql     # Admin + activity log tables only
-├── intramuros_db_feedback.sql  # Feedback table only
-├── intramuros_db_survey.sql    # Survey table only
+├── intramuros_db.sql           # Full database backup (all 4 tables)
 │
 └── localhost_LTFF_.png         # Screenshot of the app
 ```
@@ -178,9 +176,12 @@ The database is called **`intramuros_db`** and has **4 tables**.
    http://localhost/LTFF/Index.php
    ```
 
-6. **Default admin login:**
+6. **Default admin login (case-sensitive):**
    - Username: `admin`
-   - Password: `admin123` (the hashed version is already in the SQL file — if this doesn't work, set a new password directly through the database)
+   - Password: `password123` (auto-seeded the first time the `admin_users` table is empty)
+
+7. **Need to create or reset an admin account?**
+   Open `http://localhost/LTFF/setup_admin.php` in your browser, fill in a username and a strong password (12+ chars with uppercase, lowercase, number, and special character), then **delete `setup_admin.php`** from the server using the red button shown after saving. Leaving it on the server is a security risk.
 
 ---
 
@@ -194,8 +195,8 @@ The database is called **`intramuros_db`** and has **4 tables**.
 5. A small **Quick Survey** pops up asking if the form was easy. The answer is saved by `save_survey.php`.
 
 ### Admin flow
-1. Admin clicks the **Admin** button at the top and enters their username and password.
-2. `admin_login.php` checks the password against the hashed one in `admin_users` and starts a session.
+1. Admin clicks the **Admin** button at the top and enters their username and password (the username is **case-sensitive** — `Admin` and `admin` are different).
+2. The login form first checks that the password meets the strong-password rule (12+ chars, uppercase, lowercase, number, special) before sending it. `admin_login.php` then checks the password against the hashed one in `admin_users` and starts a session.
 3. The admin sees the **Admin Dashboard** with:
    - All feedback entries (with Delete buttons)
    - All Quick Survey answers (with a Clear All button)

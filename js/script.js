@@ -143,6 +143,18 @@ function handleAdminLogin(event) {
     const user = document.getElementById('adminUsername').value;
     const pass = document.getElementById('adminPassword').value;
 
+    if (!user) {
+        showToast('Please enter your username.', 'error');
+        document.getElementById('adminUsername').focus();
+        return;
+    }
+    const strongErr = validateStrongPassword(pass);
+    if (strongErr) {
+        showToast(strongErr, 'error');
+        document.getElementById('adminPassword').focus();
+        return;
+    }
+
     const formData = new FormData();
     formData.append('username', user);
     formData.append('password', pass);

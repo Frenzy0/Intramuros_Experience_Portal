@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2026 at 03:26 AM
+-- Generation Time: May 23, 2026 at 11:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,98 +40,25 @@ CREATE TABLE `activity_log` (
 --
 
 INSERT INTO `activity_log` (`id`, `username`, `action`, `details`, `created_at`) VALUES
-(1, 'admin', 'login_success', 'Admin signed in.', '2026-05-05 16:20:09'),
-(2, 'admin', 'login_success', 'Admin signed in.', '2026-05-05 16:24:33'),
-(3, 'admin', 'feedback_deleted', 'Deleted feedback id=2', '2026-05-05 16:25:02'),
-(4, 'ad', 'login_failed', 'Unknown username.', '2026-05-05 16:29:15'),
-(5, 'ad', 'login_failed', 'Unknown username.', '2026-05-05 16:29:20'),
-(6, 'admin', 'login_success', 'Admin signed in.', '2026-05-05 16:29:27'),
-(7, 'admin', 'login_success', 'Admin signed in.', '2026-05-05 16:30:25'),
-(8, 'admin', 'login_success', 'Admin signed in.', '2026-05-05 16:36:59'),
-(9, 'admin', 'login_success', 'Admin signed in.', '2026-05-05 16:41:32'),
-(10, 'admin', 'login_failed', 'Wrong password.', '2026-05-05 16:42:38'),
-(11, 'admin', 'login_success', 'Admin signed in.', '2026-05-05 16:42:43'),
-(12, 'admin', 'login_success', 'Admin signed in.', '2026-05-05 16:43:35'),
-(13, 'admin', 'login_success', 'Admin signed in.', '2026-05-05 16:46:59'),
-(14, 'admin', 'login_success', 'Admin signed in.', '2026-05-05 16:50:23'),
-(15, 'admin', 'login_failed', 'Wrong password.', '2026-05-05 16:54:43'),
-(16, 'admin', 'login_success', 'Admin signed in.', '2026-05-05 16:54:47'),
-(17, 'admin', 'feedback_deleted', 'Deleted feedback id=4', '2026-05-05 16:54:50'),
-(18, 'admin', 'feedback_deleted', 'Deleted feedback id=3', '2026-05-05 16:54:51'),
-(19, 'admin', 'login_success', 'Admin signed in.', '2026-05-05 17:04:12'),
-(20, 'admin', 'logout', 'Admin signed out.', '2026-05-05 17:05:21'),
-(21, 'admin', 'login_success', 'Admin signed in.', '2026-05-05 17:13:25'),
-(22, 'admin', 'logout', 'Admin signed out.', '2026-05-05 17:14:06'),
-(23, 'admin', 'login_success', 'Admin signed in.', '2026-05-05 17:16:22'),
-(24, 'admin', 'logout', 'Admin signed out.', '2026-05-05 17:16:50'),
-(25, 'admin', 'login_success', 'Admin signed in.', '2026-05-09 11:53:58'),
-(26, 'admin', 'logout', 'Admin signed out.', '2026-05-09 11:57:54'),
-(27, 'admin', 'login_success', 'Admin signed in.', '2026-05-09 12:01:52'),
-(28, 'admin', 'logout', 'Admin signed out.', '2026-05-09 12:03:38'),
-(29, 'admin', 'login_success', 'Admin signed in.', '2026-05-09 12:21:52'),
-(30, 'admin', 'logout', 'Admin signed out.', '2026-05-09 12:22:52'),
-(31, 'admin', 'login_success', 'Admin signed in.', '2026-05-09 12:29:11'),
-(32, 'admin', 'logout', 'Admin signed out.', '2026-05-09 12:30:13'),
-(33, 'admin', 'login_success', 'Admin signed in.', '2026-05-11 00:00:44'),
-(34, 'admin', 'logout', 'Admin signed out.', '2026-05-11 00:02:21'),
-(35, 'admin', 'login_success', 'Admin signed in.', '2026-05-11 00:28:02'),
-(36, 'admin', 'feedback_deleted', 'Deleted feedback id=8', '2026-05-11 00:28:06'),
-(37, 'admin', 'logout', 'Admin signed out.', '2026-05-11 00:35:15'),
-(38, 'admin', 'login_success', 'Admin signed in.', '2026-05-11 00:37:49'),
-(39, 'admin', 'logout', 'Admin signed out.', '2026-05-11 00:41:00'),
-(40, 'admin', 'login_success', 'Admin signed in.', '2026-05-11 01:10:26'),
-(41, 'admin', 'logout', 'Admin signed out.', '2026-05-11 01:10:39'),
-(42, 'admin', 'login_success', 'Admin signed in.', '2026-05-11 01:11:10'),
-(43, 'admin', 'logout', 'Admin signed out.', '2026-05-11 01:11:15'),
-(44, 'admin', 'login_success', 'Admin signed in.', '2026-05-11 01:12:26'),
-(45, 'admin', 'logout', 'Admin signed out.', '2026-05-11 01:12:44'),
-(46, 'admin', 'login_success', 'Admin signed in.', '2026-05-11 01:25:03'),
-(47, 'admin', 'logout', 'Admin signed out.', '2026-05-11 01:27:23'),
-(48, 'admin', 'login_success', 'Admin signed in.', '2026-05-11 01:31:55'),
-(49, 'admin', 'logout', 'Admin signed out.', '2026-05-11 01:39:21'),
-(50, 'admin', 'login_success', 'Admin signed in.', '2026-05-11 01:43:32'),
-(51, 'admin', 'logout', 'Admin signed out.', '2026-05-11 01:49:54'),
-(52, 'admin', 'login_failed', 'Wrong password.', '2026-05-11 01:52:00'),
-(53, 'admin', 'login_success', 'Admin signed in.', '2026-05-11 01:52:05'),
-(54, 'admin', 'logout', 'Admin signed out.', '2026-05-11 02:33:27'),
-(55, 'admin', 'login_success', 'Admin signed in.', '2026-05-12 01:49:17'),
-(56, 'admin', 'logout', 'Admin signed out.', '2026-05-12 01:49:29'),
-(57, 'admin', 'logout', 'Admin signed out.', '2026-05-12 02:11:01'),
-(58, '123', 'login_failed', 'Unknown username.', '2026-05-12 02:11:20'),
-(59, 'admin', 'login_success', 'Admin signed in.', '2026-05-12 12:45:40'),
-(60, 'admin', 'logout', 'Admin signed out.', '2026-05-12 12:46:15'),
-(61, 'admin', 'logout', 'Admin signed out.', '2026-05-12 12:51:03'),
-(62, 'admin', 'login_success', 'Admin signed in.', '2026-05-12 12:51:25'),
-(63, 'admin', 'login_failed', 'Wrong password.', '2026-05-12 13:38:54'),
-(64, 'admin', 'login_success', 'Admin signed in.', '2026-05-12 13:39:04'),
-(65, 'admin', 'feedback_deleted', 'Deleted feedback id=12', '2026-05-12 13:39:45'),
-(66, 'admin', 'logout', 'Admin signed out.', '2026-05-12 13:40:59'),
-(67, 'admin', 'login_success', 'Admin signed in.', '2026-05-13 13:58:15'),
-(68, 'admin', 'logout', 'Admin signed out.', '2026-05-13 13:59:13'),
-(69, 'admin', 'login_success', 'Admin signed in.', '2026-05-13 13:59:34'),
-(70, 'admin', 'feedback_deleted', 'Deleted feedback id=10', '2026-05-13 14:00:36'),
-(71, 'admin', 'logout', 'Admin signed out.', '2026-05-13 14:01:27'),
-(72, 'admin', 'login_success', 'Admin signed in.', '2026-05-13 14:09:15'),
-(73, 'admin', 'logout', 'Admin signed out.', '2026-05-13 14:09:40'),
-(74, 'admin', 'login_failed', 'Wrong password.', '2026-05-14 10:15:35'),
-(75, 'admin', 'login_success', 'Admin signed in.', '2026-05-14 10:15:40'),
-(76, 'admin', 'logout', 'Admin signed out.', '2026-05-14 10:15:57'),
-(77, 'admin', 'login_failed', 'Wrong password.', '2026-05-14 10:50:14'),
-(78, 'admin', 'login_success', 'Admin signed in.', '2026-05-14 10:50:19'),
-(79, 'admin', 'logout', 'Admin signed out.', '2026-05-14 10:50:27'),
-(80, 'admin', 'login_success', 'Admin signed in.', '2026-05-14 10:50:52'),
-(81, 'admin', 'logout', 'Admin signed out.', '2026-05-14 10:51:00'),
-(82, 'admin', 'login_success', 'Admin signed in.', '2026-05-14 10:51:19'),
-(83, 'admin', 'logout', 'Admin signed out.', '2026-05-14 10:52:02'),
-(84, 'admin', 'logout', 'Admin signed out.', '2026-05-14 14:04:32'),
-(85, 'admin', 'login_failed', 'Wrong password.', '2026-05-14 14:13:13'),
-(86, 'admin', 'login_success', 'Admin signed in.', '2026-05-14 14:13:18'),
-(87, 'admin', 'feedback_deleted', 'Deleted feedback id=17', '2026-05-14 14:13:23'),
-(88, 'admin', 'feedback_deleted', 'Deleted feedback id=16', '2026-05-14 14:13:25'),
-(89, 'admin', 'survey_cleared', 'Cleared 7 survey response(s).', '2026-05-15 05:36:20'),
-(90, 'admin', 'logout', 'Admin signed out.', '2026-05-15 05:36:29'),
-(91, 'admin', 'logout', 'Admin signed out.', '2026-05-21 04:49:18'),
-(92, 'admin', 'logout', 'Admin signed out.', '2026-05-22 01:25:37');
+(1, 'admin', 'login_failed', 'Wrong password.', '2026-05-23 09:00:47'),
+(2, 'admin', 'login_failed', 'Wrong password.', '2026-05-23 09:00:49'),
+(3, 'admin', 'login_failed', 'Wrong password.', '2026-05-23 09:05:27'),
+(4, 'admin', 'login_failed', 'Wrong password.', '2026-05-23 09:08:19'),
+(5, 'admin', 'login_failed', 'Wrong password.', '2026-05-23 09:08:26'),
+(6, 'admin', 'login_failed', 'Wrong password.', '2026-05-23 09:08:27'),
+(7, 'admin', 'login_failed', 'Wrong password.', '2026-05-23 09:08:27'),
+(8, 'admin', 'login_failed', 'Wrong password.', '2026-05-23 09:09:06'),
+(9, 'admin', 'profile_updated', 'Admin created via setup_admin.php', '2026-05-23 09:12:21'),
+(10, 'admin', 'login_success', 'Admin signed in.', '2026-05-23 09:12:58'),
+(11, 'admin', 'logout', 'Admin signed out.', '2026-05-23 09:15:54'),
+(12, 'admin', 'login_success', 'Admin signed in.', '2026-05-23 09:16:06'),
+(13, 'admin', 'logout', 'Admin signed out.', '2026-05-23 09:16:56'),
+(14, 'admin', 'login_failed', 'Wrong password.', '2026-05-23 09:23:47'),
+(15, 'admin', 'login_success', 'Admin signed in.', '2026-05-23 09:23:54'),
+(16, 'admin', 'logout', 'Admin signed out.', '2026-05-23 09:24:30'),
+(17, 'admin', 'login_failed', 'Wrong password.', '2026-05-23 09:24:35'),
+(18, 'admin', 'login_failed', 'Wrong password.', '2026-05-23 09:27:01'),
+(19, 'admin', 'login_failed', 'Wrong password.', '2026-05-23 09:44:14');
 
 -- --------------------------------------------------------
 
@@ -141,7 +68,7 @@ INSERT INTO `activity_log` (`id`, `username`, `action`, `details`, `created_at`)
 
 CREATE TABLE `admin_users` (
   `id` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL,
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `password_hash` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -151,7 +78,7 @@ CREATE TABLE `admin_users` (
 --
 
 INSERT INTO `admin_users` (`id`, `username`, `password_hash`, `created_at`) VALUES
-(1, 'admin', '$2y$10$8zYNSnMt2iFKpn1K8p9Zs.AwN6JEnANWzg60LDLBr5wNu4Y011Cxq', '2026-05-05 16:20:08');
+(2, 'admin', '$2y$10$z1vit8IJIdAwXhMal0sb6.jHlZGqI86Gr8PE1IeEwXQNL3IBf5TbG', '2026-05-23 09:12:21');
 
 -- --------------------------------------------------------
 
@@ -186,7 +113,8 @@ INSERT INTO `feedback` (`id`, `nationality`, `visit_date`, `cleanliness`, `restr
 (13, 'Local', '2026-05-01', 2, 3, 3, 4, 2, '', 2.80, '2026-05-13 13:55:36'),
 (14, 'Foreign', '2026-03-23', 3, 2, 2, 3, 3, '', 2.60, '2026-05-14 07:39:49'),
 (15, 'Foreign', '2026-03-27', 3, 2, 3, 3, 2, 'Its all good man', 2.60, '2026-05-14 07:42:33'),
-(18, 'Local', '2026-05-21', 4, 2, 2, 2, 3, ' is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 2.60, '2026-05-21 04:49:36');
+(18, 'Local', '2026-05-21', 4, 2, 2, 2, 3, ' is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 2.60, '2026-05-21 04:49:36'),
+(19, 'Foreign', '2026-05-23', 3, 2, 3, 3, 2, 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.', 2.60, '2026-05-23 08:46:05');
 
 -- --------------------------------------------------------
 
@@ -239,19 +167,19 @@ ALTER TABLE `survey`
 -- AUTO_INCREMENT for table `activity_log`
 --
 ALTER TABLE `activity_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `admin_users`
 --
 ALTER TABLE `admin_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `survey`

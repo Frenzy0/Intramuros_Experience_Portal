@@ -109,8 +109,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['clear_survey']) && !i
         </div>
 
         <div id="windowPlanner" class="view-section active">
-            <p class="context">Welcome, future traveler!<br>
-            Discover and rate your historic journey beforehand or check the past visitor feedback.</p>
+            <p class="context">Welcome, traveler!<br>
+            Share your experience from today's visit or check out feedback from past visitors.</p>
 
             <div class="planner-card">
                 <div class="planner-tagline">
