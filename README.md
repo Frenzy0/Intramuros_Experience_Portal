@@ -88,9 +88,7 @@ LTFF/
 ├── admin_helpers.php           # Shared admin helper functions
 ├── setup_admin.php             # One-shot tool to create/reset an admin account
 │
-├── intramuros_db.sql           # Full database backup (all 4 tables)
-│
-└── localhost_LTFF_.png         # Screenshot of the app
+└── intramuros_db.sql           # Full database backup (all 4 tables)
 ```
 
 ---
